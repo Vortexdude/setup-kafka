@@ -13,7 +13,7 @@
   apt:
     deb: https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.deb
     state: present
-  when: stat_java.stat.exists
+  when: not stat_java.stat.exists
 
 - name: check the binary file already downloaded or not
   stat: 
@@ -35,7 +35,7 @@
       unarchive:
         src: "/tmp/kafka_2.13-{{ kafka_version }}.tgz"
         dest: "{{ default_kafka_directory }}"
-  when: kafka_stat.stat.exists
+  when: not kafka_stat.stat.exists
 
 - name: remove the tempfile
   file: 
