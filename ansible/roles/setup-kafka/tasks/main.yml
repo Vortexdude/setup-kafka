@@ -49,6 +49,8 @@
 
 - name: source the ~/.bashrc file
   shell: source ~/.bashrc
+  args:
+    executable: /bin/bash
 
 # For RPM Packages
 #https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.rpm
