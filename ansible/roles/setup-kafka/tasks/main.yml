@@ -4,29 +4,42 @@
     name: java-common
     update_cache: true
 
+- name: check the java is installed or not
+  stat:
+    path: /usr/lib/jvm/java-11-amazon-corretto/bin/java
+  register: stat_java
+
 - name: install java using the link
   apt:
     deb: https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.deb
     state: present
+  when: stat_java.stat.exists
 
-- name: download the binary file of the kafka
-  get_url:
-    url: "https://archive.apache.org/dist/kafka/{{ kafka_version }}/kafka_2.13-{{ kafka_version }}.tgz"
-    dest: "/tmp/kafka_2.13-{{ kafka_version }}.tgz"
+- name: check the binary file already downloaded or not
+  stat: 
+    path: "{{ default_kafka_directory }}kafka_2.13-{{ kafka_version }}"
+  register: kafka_stat
 
-- name: make the kafka directory
-  file:
-    path: "/kafka_2.13-{{ kafka_version }}"
-    state: directory
+- block:
+    - name: download the binary file of the kafka
+      get_url:
+        url: "https://archive.apache.org/dist/kafka/{{ kafka_version }}/kafka_2.13-{{ kafka_version }}.tgz"
+        dest: "/tmp/kafka_2.13-{{ kafka_version }}.tgz"
 
-- name: unarchive the kafka binary
-  unarchive:
-    src: "/tmp/kafka_2.13-{{ kafka_version }}.tgz"
-    dest: /
+    - name: make the kafka directory
+      file:
+        path: "/kafka_2.13-{{ kafka_version }}"
+        state: directory
+
+    - name: unarchive the kafka binary
+      unarchive:
+        src: "/tmp/kafka_2.13-{{ kafka_version }}.tgz"
+        dest: "{{ default_kafka_directory }}"
+  when: kafka_stat.stat.exists
 
 - name: remove the tempfile
   file: 
-    path: "~/kafka_2.13-{{ kafka_version }}"
+    path: "/tmp/kafka_2.13-{{ kafka_version }}"
     state: absent
 
 
