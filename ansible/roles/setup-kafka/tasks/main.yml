@@ -17,7 +17,7 @@
 
 - name: check the binary file already downloaded or not
   stat: 
-    path: "{{ default_kafka_directory }}kafka_2.13-{{ kafka_version }}"
+    path: "{{ default_kafka_directory }}/kafka_2.13-{{ kafka_version }}"
   register: kafka_stat
 
 - block:
