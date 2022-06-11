@@ -42,6 +42,10 @@
     path: "/tmp/kafka_2.13-{{ kafka_version }}"
     state: absent
 
+- name: set the enviroment variable of the kafka binary
+  lineinfile:
+    path: ~/.bashrc
+    line: PATH=\"$PATH:~/kafka_2.13-3.0.0/bin\"
 
 
 # For RPM Packages
