@@ -47,6 +47,8 @@
     path: ~/.bashrc
     line: "PATH=\"$PATH:/opt/kafka_2.13-{{ kafka_version }}/bin\""
 
+- name: source the ~/.bashrc file
+  shell: source ~/.bashrc
 
 # For RPM Packages
 #https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.rpm
