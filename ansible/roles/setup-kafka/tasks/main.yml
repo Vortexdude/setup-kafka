@@ -1,6 +1,6 @@
 
 - name: install package java-common
-  apt:
+  package:
     name: java-common
     update_cache: true
 
@@ -9,12 +9,10 @@
     path: /usr/lib/jvm/java-11-amazon-corretto/bin/java
   register: stat_java
 
-- name: install java using the link
-  apt:
-    deb: https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.deb
-    state: present
+- name: "including installation task for {{ ansible_os_family }}"
+  include_tasks: "install_binary_{{ ansible_os_family }}.yml"
   when: not stat_java.stat.exists
-
+  
 - name: check the binary file already downloaded or not
   stat: 
     path: "/opt//kafka_2.13-{{ kafka_version }}"

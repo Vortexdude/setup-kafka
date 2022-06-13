@@ -1,0 +1,4 @@
+- name: install java using the link
+  yum:
+    deb: https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.rpm
+    state: present
