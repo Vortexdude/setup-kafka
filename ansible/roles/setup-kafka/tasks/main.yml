@@ -12,7 +12,7 @@
 - name: "including installation task for {{ ansible_os_family }}"
   include_tasks: "install_binary_{{ ansible_os_family }}.yml"
   when: not stat_java.stat.exists
-  
+
 - name: check the binary file already downloaded or not
   stat: 
     path: "/opt//kafka_2.13-{{ kafka_version }}"
@@ -49,7 +49,3 @@
   shell: source ~/.bashrc
   args:
     executable: /bin/bash
-
-# For RPM Packages
-#https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.rpm
-
